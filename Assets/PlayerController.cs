@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         if (controller.isGrounded)
         {
-            movement = new Vector3(0, 0, verticalInput);
+            movement = new Vector3(0, 0, horizontalInput);
             movement = this.transform.TransformDirection(movement);
 
             if (Input.GetButton("Jump"))
@@ -33,7 +33,6 @@ public class PlayerController : MonoBehaviour
             }
         }
        
-        rotation += rotationSpeed * horizontalInput * Time.deltaTime;
         this.transform.eulerAngles = new Vector3(0, rotation, 0);
 
         movement.y -= gravity * Time.deltaTime;
