@@ -5,17 +5,21 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour
 {
     private CharacterController controller;
+    private TrickController trickController;
     public Vector3 velocity;
     public float acceleration = 15;
-    public float maxSpeed = 45;
+    public float accBoost = 0;
+    public float maxSpeed = 40;
+    public float maxSpeedBoost = 0;
     public float gravity = 30;
     public float jumpHeight = 15;
-    public float fallMult = 1.5f;
-    public float lowJumpMult = 1.5f;
+    public float fallMult = 2.5f;
+    public float lowJumpMult = 2f;
 
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        trickController = GetComponent<TrickController>();
         velocity = new Vector3(0, 0, 0);
     }
 
@@ -42,16 +46,18 @@ public class PlayerController : MonoBehaviour
         if (horizontalInput == 0 && velocity.x != 0) accMult = (velocity.x > 0) ? -0.4f : accMult = 0.4f; // Slowly decelerate if no input is being held while moving.
         if ((horizontalInput > 0 && velocity.x < 0) || (horizontalInput < 0 && velocity.x > 0)) accMult *= 3; // Multiply braking force if input is in opposite direction of current velocity.
 
-        velocity.x += accMult * acceleration * Time.deltaTime;
+        velocity.x += accMult * (acceleration + accBoost) * Time.deltaTime;
 
         // Cap our speed if it is over the max speed in either direction;
-        if (velocity.x > maxSpeed) velocity.x = maxSpeed;
-        else if (velocity.x < -maxSpeed) velocity.x = -maxSpeed;
+        if (velocity.x > (maxSpeed + maxSpeedBoost)) velocity.x = (maxSpeed + maxSpeedBoost);
+        else if (velocity.x < -(maxSpeed + maxSpeedBoost)) velocity.x = -(maxSpeed + maxSpeedBoost);
 
-
-        Quaternion rotation = transform.rotation;
-        rotation.y = (velocity.x >= 0) ? 0 : 180;
-        transform.rotation = rotation;
+        if(trickController.trickState == TrickController.TrickState.IDLE)
+        {
+            Quaternion rotation = transform.rotation;
+            rotation.y = (velocity.x >= 0) ? 0 : 180;
+            transform.rotation = rotation;
+        }
 
         if (velocity.y < 0) velocity.y -= gravity * fallMult * Time.deltaTime; // Increase the effect of gravity while falling for snappier movement.
         else if (velocity.y > 0 && !Input.GetButton("Jump")) velocity.y -= gravity * lowJumpMult * Time.deltaTime; // Increase the effect of gravity if we release the jump button early to allow for 'short-hopping'.
