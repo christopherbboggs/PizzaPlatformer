@@ -24,7 +24,7 @@ public class PlayerController : MonoBehaviour
         float verticalInput = Input.GetAxis("Vertical");
         if (controller.isGrounded)
         {
-            movement = new Vector3(0, 0, horizontalInput);
+            movement = new Vector3(horizontalInput, 0,0 );
             movement = this.transform.TransformDirection(movement);
 
             if (Input.GetButton("Jump"))
