@@ -11,8 +11,8 @@ GameObject:
   - component: {fileID: 5001977958026591314}
   - component: {fileID: 7630379638001112472}
   - component: {fileID: -8034397848576143059}
-  - component: {fileID: -4148309073633970465}
   - component: {fileID: -8734699887317091214}
+  - component: {fileID: 5130190029112635543}
   m_Layer: 3
   m_Name: Player
   m_TagString: Player
@@ -73,12 +73,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   velocity: {x: 0, y: 0, z: 0}
   acceleration: 15
+  accBoost: 0
   maxSpeed: 45
+  maxSpeedBoost: 0
   gravity: 30
   jumpHeight: 15
   fallMult: 1.5
   lowJumpMult: 1.5
---- !u!114 &-4148309073633970465
 --- !u!114 &-8734699887317091214
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -92,9 +93,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   trickState: 0
-  trickTimer: 0
+  completedTricks: 
   startRotation: {x: 0, y: 0, z: 0, w: 0}
-  endRotation: {x: 0, y: 0, z: 0, w: 0}
+  trickTimer: 0
+  boostTimer: 0
+  boostLength: 3
+--- !u!114 &5130190029112635543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3190093280165023810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7cdca1c025b4e24d893524dfe50818b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
