@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 705507994}
-  m_IndirectSpecularColor: {r: 0.18028517, g: 0.2257168, b: 0.3069251, a: 1}
+  m_IndirectSpecularColor: {r: 0.18028465, g: 0.22571601, b: 0.30692405, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -4621,7 +4621,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8362292573721466394, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
       propertyPath: m_LocalScale.z
-      value: 15.350331
+      value: 7.3951755
       objectReference: {fileID: 0}
     - target: {fileID: 8362292573721466394, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
       propertyPath: m_LocalPosition.x
@@ -4633,7 +4633,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8362292573721466394, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -2.5098
+      value: -2.4737
       objectReference: {fileID: 0}
     - target: {fileID: 8362292573721466394, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
       propertyPath: m_LocalRotation.w
@@ -4680,12 +4680,28 @@ PrefabInstance:
       value: DeliveryPoint
       objectReference: {fileID: 0}
     - target: {fileID: 8362292573721466407, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
+      propertyPath: m_Size.x
+      value: 1.1624355
+      objectReference: {fileID: 0}
+    - target: {fileID: 8362292573721466407, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
       propertyPath: m_Size.y
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8362292573721466407, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
       propertyPath: m_Size.z
-      value: 1
+      value: 2.0053375
+      objectReference: {fileID: 0}
+    - target: {fileID: 8362292573721466407, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
+      propertyPath: m_Center.x
+      value: -0.081218354
+      objectReference: {fileID: 0}
+    - target: {fileID: 8362292573721466407, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
+      propertyPath: m_Center.y
+      value: 0.017027862
+      objectReference: {fileID: 0}
+    - target: {fileID: 8362292573721466407, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
+      propertyPath: m_Center.z
+      value: 0.24848565
       objectReference: {fileID: 0}
     - target: {fileID: 8362292573721466407, guid: 07df25f7dd6bcf44395cae25a5737bb7, type: 3}
       propertyPath: m_IsTrigger

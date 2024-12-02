@@ -26,11 +26,11 @@ public class TimeController : MonoBehaviour
     void Start()
     {
         secondsPenalized = 0;
-        
+
         startingTime = 60f;
         GameObject timeTextGO = GameObject.Find("TimeLeftText");
         timeText = timeTextGO.GetComponent<Text>();
-        
+
         GameObject goImage = GameObject.Find("GoImage");
         GameObject arrowImage = GameObject.Find("ArrowImage");
         Destroy(goImage, 4);
@@ -183,6 +183,6 @@ public class TimeController : MonoBehaviour
         vectourFour.z = 135 + (11 * (startingTime - timeRemaining)); // z field is the right side padding of mask
         mask.padding = vectourFour;
         return;
-        
+
     }
 }
