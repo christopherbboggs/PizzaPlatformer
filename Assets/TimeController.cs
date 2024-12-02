@@ -123,4 +123,18 @@ public class TimeController : MonoBehaviour
         trickString = TrickToString(trickKey);
         trickText.text = trickString + " x " + frequency.ToString();
     }
+
+    public void UpdateBoostUI(int tricksCompleted)
+    {
+        if (tricksCompleted == 0)
+        {
+            boostText.text = "";
+        }
+        else
+        {
+            boostText.text = "Boost x " + tricksCompleted.ToString();
+        }
+
+        return;
+    }
 }

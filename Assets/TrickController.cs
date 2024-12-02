@@ -44,6 +44,8 @@ public class TrickController : MonoBehaviour
                     boostTimer = boostLength;
                     playerController.accBoost = 1 * completedTricks.Count;
                     playerController.maxSpeedBoost = 5 * completedTricks.Count;
+
+                    timeController.UpdateBoostUI(completedTricks.Count); // update boost text on screen
                 }
             }
             else
@@ -52,6 +54,8 @@ public class TrickController : MonoBehaviour
                 boostTimer = boostLength;
                 playerController.accBoost = 1 * completedTricks.Count;
                 playerController.maxSpeedBoost = 5 * completedTricks.Count;
+
+                timeController.UpdateBoostUI(completedTricks.Count); // update boost text on screen
             }
 
             // Boost current velocity when we land a trick chain regardless.
@@ -76,6 +80,8 @@ public class TrickController : MonoBehaviour
             boost = false;
             playerController.accBoost = 0;
             playerController.maxSpeedBoost = 0;
+
+            timeController.UpdateBoostUI(0); // clears boost text on screen
         }
     }
     void LateUpdate()
