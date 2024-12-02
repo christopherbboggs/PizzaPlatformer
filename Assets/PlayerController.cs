@@ -6,6 +6,8 @@ public class PlayerController : MonoBehaviour
 {
     private CharacterController controller;
     private TrickController trickController;
+    private float horizontalInput;
+    private float verticalInput;
     public Vector3 velocity;
     public float acceleration = 15;
     public float accBoost = 0;
@@ -25,12 +27,13 @@ public class PlayerController : MonoBehaviour
 
     void Update()
     {
-        float horizontalInput = Input.GetAxis("Horizontal");
-        float verticalInput = Input.GetAxis("Vertical");
+        horizontalInput = Input.GetAxis("Horizontal");
+        verticalInput = Input.GetAxis("Vertical");
         float accMult = horizontalInput;
 
         // Clip speed to 0 at small values to keep the player from jittering in place.
         if (Mathf.Abs(velocity.x) < 0.025f) velocity.x = 0;
+        if (Mathf.Abs(velocity.y) < 0.025f) velocity.y = 0;
 
         if (controller.isGrounded)
         {
@@ -44,7 +47,7 @@ public class PlayerController : MonoBehaviour
             accMult *= 0.6f; // Player should have less control over horizontal velocity in the air then when grounded.
         }
         if (horizontalInput == 0 && velocity.x != 0) accMult = (velocity.x > 0) ? -0.4f : accMult = 0.4f; // Slowly decelerate if no input is being held while moving.
-        if ((horizontalInput > 0 && velocity.x < 0) || (horizontalInput < 0 && velocity.x > 0)) accMult *= 3; // Multiply braking force if input is in opposite direction of current velocity.
+        if ((horizontalInput > 0 && velocity.x < 0) || (horizontalInput < 0 && velocity.x > 0)) accMult *= 6; // Multiply braking force if input is in opposite direction of current velocity.
 
         velocity.x += accMult * (acceleration + accBoost) * Time.deltaTime;
 
@@ -70,11 +73,17 @@ public class PlayerController : MonoBehaviour
     void OnControllerColliderHit(ControllerColliderHit hit)
     {
         Debug.DrawRay(hit.point, hit.normal, Color.green, 2, false);
-        if (hit.gameObject.tag != "Ramp") velocity -= (hit.normal * Vector3.Dot(velocity, hit.normal)); // calculate normal force to apply back to the player after collision.
+        if (hit.gameObject.tag == "Grindrail")
+        {
+            if (velocity.x > 0)
+                velocity.x = Mathf.Max(velocity.x, (2/3f) * (maxSpeed + maxSpeedBoost));
+            else if (velocity.x < 0)
+                velocity.x = Mathf.Min(velocity.x, -(2 / 3f) * (maxSpeed + maxSpeedBoost));
+            velocity = Vector3.ProjectOnPlane(velocity, hit.normal);
+        }
         else
         {
-            // This is kinda shit but I'm too tired to do better.
-            velocity = Vector3.ProjectOnPlane(velocity, hit.normal);
+            velocity -= (hit.normal * Vector3.Dot(velocity, hit.normal)); // calculate normal force to apply back to the player after collision.
         }
     }
 }

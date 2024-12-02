@@ -1,16 +1,16 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class TimeController : MonoBehaviour
 {
 
     Text timeText;
-    float startingTime;
-    int timeLeft;
+    public float startingTime = 60f;
+    public static float timeLeft;
     Text scoreText;
     Text pointsEarnedText;
     Text trickText;
@@ -18,16 +18,12 @@ public class TimeController : MonoBehaviour
 
     public int secondsPenalized; // positive value means lost time
 
-    PizzaManager pizzaManagerVar;
-
 
 
     // Start is called before the first frame update
     void Start()
     {
-        secondsPenalized = 0;
-
-        startingTime = 60f;
+        timeLeft = startingTime;
         GameObject timeTextGO = GameObject.Find("TimeLeftText");
         timeText = timeTextGO.GetComponent<Text>();
 
@@ -49,36 +45,32 @@ public class TimeController : MonoBehaviour
         boostText.text = "";
 
         GameObject playerGO = GameObject.Find("Player");
-        pizzaManagerVar = playerGO.GetComponent<PizzaManager>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
+        timeLeft -= Time.deltaTime;
+        float actualTime = timeLeft - secondsPenalized;
 
-        float timePassed = Time.unscaledTime;
-        float temp = startingTime - timePassed;
-        timeLeft = (int)temp;
-        timeLeft -= secondsPenalized;
-
-        if (timeLeft >= 0)
+        if (actualTime >= 0)
         {
-            timeText.text = timeLeft.ToString();
+            timeText.text = String.Format("{0:0}", actualTime);
 
-            UpdatePizzaHealth(timeLeft);
+            UpdatePizzaHealth(actualTime);
         }
         else
         {
             timeText.text = "0";
-
-            UpdatePizzaHealth(timeLeft);
+            UpdatePizzaHealth(actualTime);
+            SceneManager.LoadScene("Results_Screen");
         }
     }
 
     int GetCurrentScore()
     {
-        int temp1 = pizzaManagerVar.currentScore;
+        int temp1 = PizzaManager.currentScore;
         return temp1;
     }
 
@@ -94,7 +86,7 @@ public class TimeController : MonoBehaviour
             pointsEarnedText.text = "+" + pointsGained.ToString();
 
             int theCurrentScore = GetCurrentScore();
-            pizzaManagerVar.currentScore = theCurrentScore + pointsGained;
+            PizzaManager.currentScore = theCurrentScore + pointsGained;
             scoreText.text = (theCurrentScore + pointsGained).ToString();
         }
 
@@ -175,7 +167,7 @@ public class TimeController : MonoBehaviour
         return;
     }
 
-    public void UpdatePizzaHealth(int timeRemaining)
+    public void UpdatePizzaHealth(float timeRemaining)
     {
         GameObject meterholderGO = GameObject.Find("MeterHolderObject");
         RectMask2D mask = meterholderGO.GetComponent<RectMask2D>();

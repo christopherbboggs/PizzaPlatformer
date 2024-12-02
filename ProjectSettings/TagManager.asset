@@ -6,6 +6,7 @@ TagManager:
   tags:
   - PickupPoint
   - DeliveryPoint
+  - Grindrail
   layers:
   - Default
   - TransparentFX

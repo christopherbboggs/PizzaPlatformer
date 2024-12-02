@@ -12,7 +12,7 @@ public class PizzaManager : MonoBehaviour
     public float fallDamageThreshold = -20f;  // velocity threshold for fall damage
     
     // scoring variables
-    public int currentScore = 0;
+    public static int currentScore = 0;
     public int deliveryBonus = 100;
     public int healthBonus = 50;  // extra points for delivering with high health
     
@@ -27,6 +27,7 @@ public class PizzaManager : MonoBehaviour
     
     void Start()
     {
+        currentScore = 0;
         playerController = GetComponent<PlayerController>();
         ResetPizzaHealth();
         SetNewDestination();
