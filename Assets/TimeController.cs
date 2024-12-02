@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor.UI;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,6 +16,8 @@ public class TimeController : MonoBehaviour
     Text trickText;
     Text boostText;
 
+    public int secondsPenalized; // positive value means lost time
+
     PizzaManager pizzaManagerVar;
 
 
@@ -21,6 +25,8 @@ public class TimeController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        secondsPenalized = 0;
+        
         startingTime = 60f;
         GameObject timeTextGO = GameObject.Find("TimeLeftText");
         timeText = timeTextGO.GetComponent<Text>();
@@ -54,10 +60,19 @@ public class TimeController : MonoBehaviour
         float timePassed = Time.unscaledTime;
         float temp = startingTime - timePassed;
         timeLeft = (int)temp;
+        timeLeft -= secondsPenalized;
 
         if (timeLeft >= 0)
         {
             timeText.text = timeLeft.ToString();
+
+            UpdatePizzaHealth(timeLeft);
+        }
+        else
+        {
+            timeText.text = "0";
+
+            UpdatePizzaHealth(timeLeft);
         }
     }
 
@@ -69,12 +84,19 @@ public class TimeController : MonoBehaviour
 
     public void UpdateScoreUI(int tricksJustLanded)
     {
-        int pointsGained = tricksJustLanded * 100;
-        pointsEarnedText.text = "+" + pointsGained.ToString();
-        
-        int theCurrentScore = GetCurrentScore();
-        pizzaManagerVar.currentScore = theCurrentScore + pointsGained;
-        scoreText.text = (theCurrentScore + pointsGained).ToString();
+        if (tricksJustLanded <= 0)
+        {
+            pointsEarnedText.text = "";
+        }
+        else
+        {
+            int pointsGained = tricksJustLanded * 100;
+            pointsEarnedText.text = "+" + pointsGained.ToString();
+
+            int theCurrentScore = GetCurrentScore();
+            pizzaManagerVar.currentScore = theCurrentScore + pointsGained;
+            scoreText.text = (theCurrentScore + pointsGained).ToString();
+        }
 
     }
 
@@ -106,22 +128,31 @@ public class TimeController : MonoBehaviour
         return tempString;
     }
 
-    public void UpdateTrickUI(List<TrickController.TrickState> tricksDone)
+    public void UpdateTrickUI(List<TrickController.TrickState> tricksDone, bool trickFailed)
     {
-        string trickString;
-        int frequency = 0;
-        TrickController.TrickState trickKey = tricksDone[tricksDone.Count - 1];
-
-        foreach (TrickController.TrickState trick in tricksDone)
+        if (trickFailed)
         {
-            if (trick == trickKey)
+            trickText.text = "";
+        }
+        else
+        {
+            string trickString;
+            int frequency = 0;
+            TrickController.TrickState trickKey = tricksDone[tricksDone.Count - 1];
+
+            foreach (TrickController.TrickState trick in tricksDone)
             {
-                frequency++;
+                if (trick == trickKey)
+                {
+                    frequency++;
+                }
             }
+
+            trickString = TrickToString(trickKey);
+            trickText.text = trickString + " x " + frequency.ToString();
         }
 
-        trickString = TrickToString(trickKey);
-        trickText.text = trickString + " x " + frequency.ToString();
+        return;
     }
 
     public void UpdateBoostUI(int tricksCompleted)
@@ -136,5 +167,22 @@ public class TimeController : MonoBehaviour
         }
 
         return;
+    }
+
+    public void RemoveTime(int seconds)
+    {
+        secondsPenalized += seconds;
+        return;
+    }
+
+    public void UpdatePizzaHealth(int timeRemaining)
+    {
+        GameObject meterholderGO = GameObject.Find("MeterHolderObject");
+        RectMask2D mask = meterholderGO.GetComponent<RectMask2D>();
+        Vector4 vectourFour = mask.padding;
+        vectourFour.z = 135 + (11 * (startingTime - timeRemaining)); // z field is the right side padding of mask
+        mask.padding = vectourFour;
+        return;
+        
     }
 }

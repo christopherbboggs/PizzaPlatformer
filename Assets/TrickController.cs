@@ -66,7 +66,7 @@ public class TrickController : MonoBehaviour
 
             
             timeController.UpdateScoreUI(completedTricks.Count); // this updates the score earned for tricks on screen
-            timeController.UpdateTrickUI(completedTricks); // updates the trick text on screen
+            timeController.UpdateTrickUI(completedTricks, false); // updates the trick text on screen
 
             completedTricks.Clear(); // Wipe out the trick list after granting the boosts.
         }
@@ -152,6 +152,10 @@ public class TrickController : MonoBehaviour
             trickState = TrickState.IDLE;
             trickTimer = 0;
             doTrick = false;
+
+            timeController.RemoveTime(5); // removes 5 seconds from time left
+            timeController.UpdateTrickUI(completedTricks, true);
+            timeController.UpdateScoreUI(completedTricks.Count);
         }
     }
 }
