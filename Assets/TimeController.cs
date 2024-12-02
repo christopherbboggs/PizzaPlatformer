@@ -14,6 +14,8 @@ public class TimeController : MonoBehaviour
     Text trickText;
     Text boostText;
 
+    PizzaManager pizzaManagerVar;
+
 
     // Start is called before the first frame update
     void Start()
@@ -36,8 +38,11 @@ public class TimeController : MonoBehaviour
         trickText = GameObject.Find("TrickTypeText").GetComponent<Text>();
         trickText.text = "";
 
-        boostText = GameObject.Find("BoostText").GetComponent <Text>();
+        boostText = GameObject.Find("BoostText").GetComponent<Text>();
         boostText.text = "";
+
+        GameObject playerGO = GameObject.Find("Player");
+        pizzaManagerVar = playerGO.GetComponent<PizzaManager>();
 
     }
 
@@ -53,5 +58,22 @@ public class TimeController : MonoBehaviour
         {
             timeText.text = timeLeft.ToString();
         }
+    }
+
+    int getCurrentScore()
+    {
+        int temp1 = pizzaManagerVar.currentScore;
+        return temp1;
+    }
+
+    public void updateScoreUI(int tricksJustLanded)
+    {
+        int pointsGained = tricksJustLanded * 100;
+        pointsEarnedText.text = "+" + pointsGained.ToString();
+        
+        int theCurrentScore = getCurrentScore();
+        pizzaManagerVar.currentScore = theCurrentScore + pointsGained;
+        scoreText.text = (theCurrentScore + pointsGained).ToString();
+
     }
 }

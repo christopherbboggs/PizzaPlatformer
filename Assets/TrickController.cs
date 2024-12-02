@@ -54,6 +54,9 @@ public class TrickController : MonoBehaviour
             else if (vel.x < 0) vel.x -= 5 * completedTricks.Count;
             playerController.velocity = vel;
 
+            TimeController timeController = GameObject.Find("Main Camera").GetComponent<TimeController>();
+            timeController.updateScoreUI(completedTricks.Count); // this updates the score earned for tricks on screen
+
             completedTricks.Clear(); // Wipe out the trick list after granting the boosts.
         }
         if (boost && boostTimer > 0) // Count down timer
