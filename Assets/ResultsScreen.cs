@@ -10,8 +10,8 @@ public class ResultsScreen : MonoBehaviour
     void Start()
     {
         // Get the final score and time from the TimeController
-        //int finalScore = TimeController.GetFinalScore();//
-        //int finalTimeLeft = TimeController.GetFinalTimeLeft();
+       // int finalScore = TimeController.GetFinalScore();
+       // int finalTimeLeft = TimeController.GetFinalTimeLeft();
 
         // Display the score and time on the results screen
        // finalScoreText.text = "Final Score: " + finalScore.ToString();
