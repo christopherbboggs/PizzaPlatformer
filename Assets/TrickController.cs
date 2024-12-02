@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -16,12 +17,17 @@ public class TrickController : MonoBehaviour
     public float boostTimer = 0;
     public float boostLength = 3f;
 
+    TimeController timeController;
+
     // Start is called before the first frame update
     void Start()
     {
         playerController = GetComponent<PlayerController>();
         controller = GetComponent<CharacterController>();
         completedTricks = new List<TrickState>();
+
+        // gets script component for changing UI elements 
+        timeController = GameObject.Find("Main Camera").GetComponent<TimeController>();
     }
 
     // Update is called once per frame
@@ -54,8 +60,9 @@ public class TrickController : MonoBehaviour
             else if (vel.x < 0) vel.x -= 5 * completedTricks.Count;
             playerController.velocity = vel;
 
-            TimeController timeController = GameObject.Find("Main Camera").GetComponent<TimeController>();
-            timeController.updateScoreUI(completedTricks.Count); // this updates the score earned for tricks on screen
+            
+            timeController.UpdateScoreUI(completedTricks.Count); // this updates the score earned for tricks on screen
+            timeController.UpdateTrickUI(completedTricks); // updates the trick text on screen
 
             completedTricks.Clear(); // Wipe out the trick list after granting the boosts.
         }

@@ -17,6 +17,7 @@ public class TimeController : MonoBehaviour
     PizzaManager pizzaManagerVar;
 
 
+
     // Start is called before the first frame update
     void Start()
     {
@@ -60,20 +61,66 @@ public class TimeController : MonoBehaviour
         }
     }
 
-    int getCurrentScore()
+    int GetCurrentScore()
     {
         int temp1 = pizzaManagerVar.currentScore;
         return temp1;
     }
 
-    public void updateScoreUI(int tricksJustLanded)
+    public void UpdateScoreUI(int tricksJustLanded)
     {
         int pointsGained = tricksJustLanded * 100;
         pointsEarnedText.text = "+" + pointsGained.ToString();
         
-        int theCurrentScore = getCurrentScore();
+        int theCurrentScore = GetCurrentScore();
         pizzaManagerVar.currentScore = theCurrentScore + pointsGained;
         scoreText.text = (theCurrentScore + pointsGained).ToString();
 
+    }
+
+    string TrickToString(TrickController.TrickState givenTrick)
+    {
+        string tempString;
+
+        if (givenTrick == TrickController.TrickState.BACKFLIP)
+        {
+            tempString = "Backflip";
+        }
+        else if (givenTrick == TrickController.TrickState.FRONTFLIP)
+        {
+            tempString = "Frontflip";
+        }
+        else if (givenTrick == TrickController.TrickState.SPIN_LEFT)
+        {
+            tempString = "Left Spin";
+        }
+        else if (givenTrick == TrickController.TrickState.SPIN_RIGHT)
+        {
+            tempString = "Right Spin";
+        }
+        else
+        {
+            tempString = "Idle";
+        }
+
+        return tempString;
+    }
+
+    public void UpdateTrickUI(List<TrickController.TrickState> tricksDone)
+    {
+        string trickString;
+        int frequency = 0;
+        TrickController.TrickState trickKey = tricksDone[tricksDone.Count - 1];
+
+        foreach (TrickController.TrickState trick in tricksDone)
+        {
+            if (trick == trickKey)
+            {
+                frequency++;
+            }
+        }
+
+        trickString = TrickToString(trickKey);
+        trickText.text = trickString + " x " + frequency.ToString();
     }
 }
